@@ -1,0 +1,10 @@
+---
+title: "projekt forslag"
+author: "Simon Fløj Thomsen"
+date: "25/5/2022"
+output: html_document
+---
+
+
+sfc model med udvidet portefølje teori 
+

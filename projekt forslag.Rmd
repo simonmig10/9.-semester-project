@@ -6,5 +6,5 @@ output: html_document
 ---
 
 
-sfc model med udvidet portefølje teori 
+
 

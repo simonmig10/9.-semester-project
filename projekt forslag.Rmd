@@ -6,5 +6,29 @@ output: html_document
 ---
 
 
+# Projekt forslag 1: SFC-model-Integration volatility integreation in financial sector 
+
+- Inspiration fra Real buissnies cycles models. 
+
+- Bruge AR(1) process for at lave stokastisk afvigelser fra trend. --> ved ikke om dette kommer til at skabe nok udsving --> man kunne vel øge parameter for laggede værdi?
+
+- Bruge ARCh-M process til at få estimat for risiko præmie for hvert aktiv. --> skal være med til at bestemme afkastet. 
+
+- Alternativt --> Brug ekspirimental econnomics. 
 
 
+# Projekt forslag 2: Experimental Economics, investors prefered risk-premium. 
+
+- Arbejdede meget med dette i USA
+
+- Opstille et eksperiment for at se om volatilitet har en signifikant effekt på hvor meget investore kræver i risikopræmie. 
+  - SSyntes dette kunne være interresant med alle de nye muligheder der er kommet med krypto-markedet.  
+
+
+# Projekt forslag 3: SFC-model Boligmarkeds skat.
+
+- Lidt inspireret af jeres paper. 
+
+- For hver kommune (område) se hvordan det rammer (mhs. til hvor meget skatten vil stige), måske opdele i fattige/ikke fattige kommuner --> Se om det vil ændre noget på uligheden. 
+
+- Et andet synspunk kunne være at forudsige hvordan det vil påvirke samfundsøøkonomien med stigene renter samtidig med at skatten nu hæves. 

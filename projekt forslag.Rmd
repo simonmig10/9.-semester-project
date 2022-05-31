@@ -22,7 +22,7 @@ output: html_document
 - Arbejdede meget med dette i USA
 
 - Opstille et eksperiment for at se om volatilitet har en signifikant effekt på hvor meget investore kræver i risikopræmie. 
-  - SSyntes dette kunne være interresant med alle de nye muligheder der er kommet med krypto-markedet.  
+  - Syntes dette kunne være interresant med alle de nye muligheder der er kommet med krypto-markedet.  
 
 
 # Projekt forslag 3: SFC-model Boligmarkeds skat.

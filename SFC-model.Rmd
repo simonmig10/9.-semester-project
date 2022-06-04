@@ -1,0 +1,93 @@
+---
+title: "SFC-model"
+author: "Simon"
+date: "4/6/2022"
+output: html_document
+---
+
+https://www.joaomacalos.com/post/2021-06-12-sfcr-package-in-action/sfcr-package-in-action/
+
+```{r}
+library(sfcr)
+```
+
+```{r}
+eqs <- sfcr_set(
+  TXs ~ TXd,
+  YD ~ W * Ns - TXs,
+  Cd ~ alpha1 * YD + alpha2 * Hh[-1],
+  Hh ~ YD - Cd + Hh[-1],
+  Ns ~ Nd,
+  Nd ~ Y / W,
+  Cs ~ Cd,
+  Gs ~ Gd,
+  Y ~ Cs + Gs,
+  TXd ~ theta * W * Ns,
+  Hs ~ Gd - TXd + Hs[-1]
+)
+```
+
+```{r}
+external <- sfcr_set(
+  Gd ~ 20, 
+  W ~ 1,
+  alpha1 ~ 0.6,
+  alpha2 ~ 0.4,
+  theta ~ 0.2
+  )
+```
+
+
+```{r}
+sim <- sfcr_baseline(
+  equations = eqs, 
+  external = external,
+  periods = 60, 
+  )
+```
+
+```{r}
+sim
+```
+
+```{r}
+shock <- sfcr_shock(
+  variables = sfcr_set(
+    Gd ~ 30
+  ),
+  start = 5,
+  end = 60
+)
+```
+
+
+```{r}
+sim2 <- sfcr_scenario(
+  baseline = sim,
+  scenario = shock,
+  periods = 60
+  )
+```
+
+
+
+# Matrix
+
+```{r}
+bs_pc <- sfcr_matrix(
+  columns = c("Households", "Firms", "Government", "Central bank", "sum"),
+  codes = c("h", "f", "g", "cb", "s"),
+  r1 = c("Money", h = "+Hh", cb = "-Hs"),
+  r2 = c("Bills", h = "+Bh", g = "-Bs", cb = "+Bcb"),
+  r3 = c("Balance", h = "-V", g = "+V")
+)
+
+sfcr_matrix_display(bs_pc, "bs")
+```
+
+# plots
+
+```{r}
+sfcr_dag_cycles_plot(eqs)
+```
+

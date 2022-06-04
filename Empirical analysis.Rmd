@@ -1,0 +1,71 @@
+---
+title: "Empirisk analyse"
+author: "Simon"
+date: "3/6/2022"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+library(readr)
+VIX_2004 <- read_csv("C:/Users/Simon ik mig/Desktop/9. Semester/Projekt/Data/VIX_2004.csv")
+VIX_2004
+```
+
+```{r}
+library(readxl)
+c_20 <- read_excel("C:/Users/Simon ik mig/Desktop/9. Semester/Projekt/Data/c_20.xlsx")
+c_20
+
+
+data= c_20 %>% 
+  select(Closingprice, Date) %>%
+  mutate(month = months(Date), year= format(Date,format="%Y"))
+```
+
+Create volatility for each month as the deviation from the mean in each month, so the cumulative squared deviation will be calculated for each month. Using the closing price. 
+
+
+```{r}
+
+means=data %>%
+  group_by(year, month) %>%
+  summarise(mean_month = mean(Closingprice)) 
+
+```
+We now got the means, we can bind it to the daaset using month and year
+
+```{r}
+options(scipen = 999)
+
+per_dev=data %>%
+  left_join(means, by= c("month", "year"))%>%
+  mutate(percent_dev_abs= round(abs((Closingprice-mean_month)/mean_month*100),2)) 
+```
+
+Lastly we can take the mean percentage deviation over the month. 
+
+```{r}
+
+per_dev %>%
+  group_by(year, month) %>%
+  summarise(mean_dev_perc= mean(percent_dev_abs))%>%
+  mutate
+
+```
+
+
+
+## Sandard deviation
+
+```{r}
+data %>%
+  group_by(year, month) %>%
+  summarise(sd= sd(Closingprice))
+```
+
+

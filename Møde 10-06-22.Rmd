@@ -21,7 +21,7 @@ output:
 
 - Teoretisk model volatilitets led inkluderes i funktion for stock-price? Volatilitet er konstant for obligaioner og bills. 
 
-- Af førse omgang ik lave volatilitet endogen (flere kilder finder et forhold mellem reale variable og volailiet på stock market)
+- Af første omgang ik lave volatilitet endogen (flere kilder finder et forhold mellem reale variable og volailiet på stock market)
 
 - Dermed indkluder volatilitet ved at indkluderer Stokastisk volatility (SV) eller GARCH proces? Dermed muligt at skabe stød til volatilitet, men måske problem at finde en løsning??
 
@@ -30,7 +30,7 @@ output:
 
 _ Risiko præmien laves ud fra estimation af ARCH-M model på dansk data, som derigennem gør afkastet på aktier endogen. 
 
-- Bygge videre på model fra Bachelor? Eller sjæle model?
+- Bygge videre på model fra Bachelor? Eller sjæle model? --> har plan om at skulle lave et forhold med inflation/renen og volatiliteten senere. 
 
 
 **Chocks**
@@ -38,7 +38,9 @@ _ Risiko præmien laves ud fra estimation af ARCH-M model på dansk data, som de
 
 - Enden finde nogen der laver chocks til inflationen nu, for at se om inklkudering af volatilitet ændre noget på konklusion, indebære der laves en relation mellem inflation og volatilitet. Som kilder påpeger der er ("What ties Return volatilities to Price valuation..")
 
-- Ellers se på udviklingen under Corona krisen og argumentere for vi mangler et uncertainty mål, og se om vi kan predicte nogle af udviklingerne? Måske bare gennerelt se hvordan en øget economic uncertainty påvirker økonomien. 
+- Ellers se på udviklingen under Corona krisen og argumentere for vi mangler et uncertainty mål, og se om vi kan predicte nogle af udviklingerne? 
+
+- Måske bare gennerelt se hvordan en øget economic uncertainty påvirker økonomien. ved at lave stød til volatilitet?
 
 
 

@@ -1,0 +1,45 @@
+---
+title: "Møde 10-06-2022"
+author: "Simon"
+date: "9/6/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+**Overordnede Ide:** 
+
+- Economic uncertainty 
+
+- Start med at fortælle noget om forskellige uncertainty measures og måske deres forskellige sammenhænge osv. Heriblandt er volatilitet af afkastet på aktie markedet en af disse ( Bliver også brugt i flere kilder)
+
+- Vil lave en makromodel (SFC), som bedre inkludere economic uncerainty i form af volailitet på aktie markedet. 
+
+
+
+**SFC-model:** 
+
+- Teoretisk model volatilitets led inkluderes i funktion for stock-price? Volatilitet er konstant for obligaioner og bills. 
+
+- Af førse omgang ik lave volatilitet endogen (flere kilder finder et forhold mellem reale variable og volailiet på stock market)
+
+- Dermed indkluder volatilitet ved at indkluderer Stokastisk volatility (SV) eller GARCH proces? Dermed muligt at skabe stød til volatilitet, men måske problem at finde en løsning??
+
+
+- Volatiliteten påvirker herefter risikopræmien der er mellem aktier/obligationer eller aktier/Bills. Derudover også en direkte påvirkning på realøkonomiske variable måske? (Artikler finder sammenhænge her til fx. inflation og rente)
+
+
+
+**Chocks**
+
+
+- Enden finde nogen der laver chocks til inflationen nu, for at se om inklkudering af volatilitet ændre noget på konklusion, indebære der laves en relation mellem inflation og volatilitet. Som kilder påpeger der er ("What ties Return volatilities to Price valuation..")
+
+- Ellers se på udviklingen under Corona krisen og argumentere for vi mangler et uncertainty mål, og se om vi kan predicte nogle af udviklingerne? Gennem fx. stød til G ellers lavere forbrugs tilbøjlighed. 
+
+
+
+
+
+
+

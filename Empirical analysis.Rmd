@@ -11,12 +11,6 @@ library(tidyverse)
 
 
 ```{r}
-library(readr)
-VIX_2004 <- read_csv("C:/Users/Simon ik mig/Desktop/9. Semester/Projekt/Data/VIX_2004.csv")
-VIX_2004
-```
-
-```{r}
 library(readxl)
 c_20 <- read_excel("C:/Users/Simon ik mig/Desktop/9. Semester/Projekt/Data/c_20.xlsx")
 c_20
@@ -91,8 +85,6 @@ sd_data=data %>%
   select(sd, date)%>%
   arrange(date)
   
-  
-  
 ```
 
 plotting
@@ -100,5 +92,51 @@ plotting
 ```{r}
 sd= ts(sd_data$sd, start = c(1997,1), frequency = 12)
 plot(sd)
+```
+
+
+# BBD
+
+```{r}
+library(readxl)
+US_MPU_Monthly <- read_excel("C:/Users/Simon ik mig/Desktop/9. Semester/Projekt/Data/US_MPU_Monthly.xlsx")
+
+```
+```{r}
+BBD_data= US_MPU_Monthly %>%
+  mutate(day= "01") %>%
+  mutate(date= as.Date(ISOdate(year = Year, month = Month, day = day)))  %>%
+  select(-c(Year, Month, day))%>%
+  arrange(date)
+```
+```{r}
+BBD_AWN= ts(BBD_data$`BBD MPU Index Based on Access World News`, start= c(1985,1), frequency = 12)
+BBD_10MP= ts(BBD_data$`BBD MPU Index Based on 10 Major Papers`, start = c(1985,1), frequency = 12)
+
+
+plot(BBD_AWN)
+plot(BBD_10MP)
+```
+
+# VIX measure
+
+```{r}
+library(readr)
+VIX_2004 <- read_csv("C:/Users/Simon ik mig/Desktop/9. Semester/Projekt/Data/VIX_2004.csv")
+```
+
+```{r}
+data_vix= VIX_2004 %>%
+  mutate(date = as.Date(DATE, format = "%m/%d/%Y" ))%>%
+  mutate(month = format(date,"%m"), year= format(date,format="%Y"))%>%
+  select(CLOSE, month, year) %>%
+  group_by(year, month)%>%
+  summarise(mean_vix= mean(CLOSE))
+  
+```
+
+```{r}
+VIX= ts(data_vix$mean_vix, start = c(1990,1), frequency = 12)
+plot(VIX)
 ```
 

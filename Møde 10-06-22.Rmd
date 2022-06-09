@@ -28,6 +28,8 @@ output:
 
 - Volatiliteten påvirker herefter risikopræmien der er mellem aktier/obligationer eller aktier/Bills. Derudover også en direkte påvirkning på realøkonomiske variable måske? (Artikler finder sammenhænge her til fx. inflation og rente)
 
+_ Risiko præmien laves ud fra estimation af ARCH-M model på dansk data, som derigennem gør afkastet på aktier endogen. 
+
 - Bygge videre på model fra Bachelor? Eller sjæle model?
 
 

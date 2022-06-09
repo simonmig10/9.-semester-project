@@ -35,7 +35,7 @@ output:
 
 - Enden finde nogen der laver chocks til inflationen nu, for at se om inklkudering af volatilitet ændre noget på konklusion, indebære der laves en relation mellem inflation og volatilitet. Som kilder påpeger der er ("What ties Return volatilities to Price valuation..")
 
-- Ellers se på udviklingen under Corona krisen og argumentere for vi mangler et uncertainty mål, og se om vi kan predicte nogle af udviklingerne? Gennem fx. stød til G ellers lavere forbrugs tilbøjlighed. 
+- Ellers se på udviklingen under Corona krisen og argumentere for vi mangler et uncertainty mål, og se om vi kan predicte nogle af udviklingerne? Måske bare gennerelt se hvordan en øget economic uncertainty påvirker økonomien. 
 
 
 

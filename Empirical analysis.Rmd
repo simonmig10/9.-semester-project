@@ -35,27 +35,45 @@ Create volatility for each month as the deviation from the mean in each month, s
 means=data %>%
   group_by(year, month) %>%
   summarise(mean_month = mean(Closingprice)) 
-
 ```
-We now got the means, we can bind it to the daaset using month and year
+We now got the means, we can bind it to the dataset using month and year
 
 ```{r}
 options(scipen = 999)
 
 per_dev=data %>%
   left_join(means, by= c("month", "year"))%>%
-  mutate(percent_dev_abs= round(abs((Closingprice-mean_month)/mean_month*100),2)) 
+  mutate(percent_dev= round((Closingprice-mean_month)/mean_month*100,2))%>%
+  mutate(percent_dev_abs= round(abs((Closingprice-mean_month)/mean_month*100),2)) %>%
+  mutate(percent_dev_sq= round(((Closingprice-mean_month)/mean_month*100)^2,2)) 
 ```
 
 Lastly we can take the mean percentage deviation over the month. 
 
 ```{r}
 
-per_dev %>%
+vol_mes=per_dev %>%
   group_by(year, month) %>%
-  summarise(mean_dev_perc= mean(percent_dev_abs))%>%
-  mutate
+  summarise(mean_abs= mean(percent_dev_abs), mean_sq=mean(percent_dev_sq)) %>%
+  mutate(month = ifelse(month == "januar", "01", ifelse(month == "februar", "02", ifelse(month == "marts", "03", ifelse(month == "april", "04", ifelse(month == "maj", "05", ifelse(month == "juni", "06",ifelse(month == "juli", "07", ifelse(month == "august", "08", ifelse(month == "september", "09", ifelse(month == "oktober", "10", ifelse(month == "november", "11", "12")))))))))))) %>%
+  mutate(day= "01") %>%
+  mutate(date= as.Date(ISOdate(year = year, month = month, day = day)))  %>%
+  ungroup()%>%
+  select(mean_abs, mean_sq, date)%>%
+  arrange(date)
 
+```
+
+creating time series 
+
+```{r}
+mean_sq= ts(vol_mes$mean_sq, start = c(1997,1), frequency = 12)
+
+plot(mean_sq)
+
+mean_abs= ts(vol_mes$mean_abs, start = c(1997,1), frequency = 12)
+
+plot(mean_abs)
 ```
 
 
@@ -63,9 +81,24 @@ per_dev %>%
 ## Sandard deviation
 
 ```{r}
-data %>%
+sd_data=data %>%
   group_by(year, month) %>%
-  summarise(sd= sd(Closingprice))
+  summarise(sd= sd(Closingprice)) %>%
+  mutate(month = ifelse(month == "januar", "01", ifelse(month == "februar", "02", ifelse(month == "marts", "03", ifelse(month == "april", "04", ifelse(month == "maj", "05", ifelse(month == "juni", "06",ifelse(month == "juli", "07", ifelse(month == "august", "08", ifelse(month == "september", "09", ifelse(month == "oktober", "10", ifelse(month == "november", "11", "12")))))))))))) %>%
+  mutate(day= "01") %>%
+  mutate(date= as.Date(ISOdate(year = year, month = month, day = day)))  %>%
+  ungroup()%>%
+  select(sd, date)%>%
+  arrange(date)
+  
+  
+  
 ```
 
+plotting
+
+```{r}
+sd= ts(sd_data$sd, start = c(1997,1), frequency = 12)
+plot(sd)
+```
 

@@ -9,34 +9,30 @@ output:
 
 **Overordnede Ide:** 
 
-- Economic uncertainty 
+- At inkludere Economic uncertainty i makro model. 
 
 - Start med at fortælle noget om forskellige uncertainty measures og måske deres forskellige sammenhænge osv. Heriblandt er volatilitet af afkastet på aktie markedet en af disse ( Bliver også brugt i flere kilder)
 
-- Vil lave en makromodel (SFC), som bedre inkludere economic uncerainty i form af volailitet på aktie markedet. 
-
-
+- Fortælle noget om de forskellige sammenhænge andre artikler finder med økonomisk usikkerhed og samfundsøkonomien
 
 **SFC-model:** 
 
-- Teoretisk model volatilitets led inkluderes i funktion for stock-price? Volatilitet er konstant for obligaioner og bills. 
+- Teoretisk model hvor volatilitets modelleres i funktion for stock-price? Volatilitet er konstant for obligaioner og bills.(Selv om der må være nogle spillover effects) 
 
 - Af første omgang ik lave volatilitet endogen (flere kilder finder et forhold mellem reale variable og volailiet på stock market)
 
-- Dermed indkluder volatilitet ved at indkluderer Stokastisk volatility (SV) eller GARCH proces? Dermed muligt at skabe stød til volatilitet, men måske problem at finde en løsning??
+- Dermed indkluder volatilitet ved at indkluderer Stokastisk volatility (SV) eller GARCH proces? Dermed muligt at skabe stød til volatilitet, men måske problem at finde en løsning på modellen?
 
+- Volatiliteten påvirker herefter risikopræmien der er mellem aktier/obligationer eller aktier/Bills. Derudover også en direkte påvirkning på realøkonomiske variable måske? (Artikler finder sammenhænge her til fx. inflation og rente) --> starte med at teste sammenhænge på dansk data?
 
-- Volatiliteten påvirker herefter risikopræmien der er mellem aktier/obligationer eller aktier/Bills. Derudover også en direkte påvirkning på realøkonomiske variable måske? (Artikler finder sammenhænge her til fx. inflation og rente)
+- Risiko præmien laves ud fra estimation af ARCH-M model på dansk data, som derigennem gør afkastet på aktier endogen. 
 
-_ Risiko præmien laves ud fra estimation af ARCH-M model på dansk data, som derigennem gør afkastet på aktier endogen. 
-
-- Bygge videre på model fra Bachelor? Eller sjæle model? --> har plan om at skulle lave et forhold med inflation/renen og volatiliteten senere. 
+- Bygge videre på model fra Bachelor? Eller stjæle model? --> har plan om at skulle lave et forhold med inflation/renten og volatiliteten senere. 
 
 
 **Chocks**
 
-
-- Enden finde nogen der laver chocks til inflationen nu, for at se om inklkudering af volatilitet ændre noget på konklusion, indebære der laves en relation mellem inflation og volatilitet. Som kilder påpeger der er ("What ties Return volatilities to Price valuation..")
+- Enden finde nogen der laver chocks til inflationen, for at se om inklkudering af volatilitet ændre noget på konklusion, indebære der laves en relation mellem inflation og volatilitet. Som kilder påpeger der er ("What ties Return volatilities to Price valuation..")
 
 - Ellers se på udviklingen under Corona krisen og argumentere for vi mangler et uncertainty mål, og se om vi kan predicte nogle af udviklingerne? 
 

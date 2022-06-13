@@ -189,7 +189,7 @@ sim
 ```{r}
 shock <- sfcr_shock(
   variables = sfcr_set(
-    neta ~ 2),
+    neta ~ 7),
   start = 10,
   end = 60
 )

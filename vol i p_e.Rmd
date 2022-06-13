@@ -1,5 +1,5 @@
 ---
-title: "Volatilitets mål"
+title: "volatilitetet i p_e"
 author: "Simon"
 date: "13/6/2022"
 output: html_document
@@ -11,14 +11,14 @@ library(sfcr)
 
 ```{r}
 eqs <- sfcr_set(
-####output - eq.
+  ####output - eq. 5.1
 h_d ~ h_d[-1] + (h_s - h_s[-1]), 
 cs ~ cd,
 is ~ id,
 ns ~ nd,
 ls ~ ls[-1] + (ld - ld[-1]), 
 y ~ cs + is + g,
-wbd ~ y - r[-1]*ld[-1] - af - e_u,  
+wbd ~ y - r[-1]*ld[-1] - af - e_u,  #Skal cg_u trækkes fra her? mh ik ligmed ms så? Hvad hedder historien så?
 af ~ delta*k[-1],
 ld~ld[-1] + id - af - (e_s-e_s[-1])*p_e[-1], 
 h_s~ h_s[-1]+(bl_cb-bl_cb[-1])*p_bl, 
@@ -36,7 +36,7 @@ kt ~ kappa * y[-1],
 id ~ gamma*(kt-k[-1]) + da,
 ####### udbud af aktier
 e_s~ e_s_bar, 
-####Regulær disponibel indkomst - eq.
+####Regulær disponibel indkomst - eq. 5.2
 yd ~ wbs - t  + p_bl[-1]*bl_h[-1]*r_bl[-1]+ z + e_u,   
 ####Skat - eq. 5.3 
 t ~ theta*(wbs+z)+theta1*(e_u+ p_bl[-1]*bl_h[-1]*r_bl[-1]), 
@@ -54,8 +54,8 @@ m_h ~ v_i - bl_h*p_bl - p_e*e_h - h_h,
 ####Eftersp�rgsel efter kontanter - eq. 5.9
 m_d ~ v_e - bl_d*p_bl- p_e*e_d  - h_d,
 ####Efterspørgsel efter aktier
-p_e ~ v_e*(lambda20 + lambda22*er_re + lambda23*er_rbl + lambda24*(yd_e/v_e))/e_s, 
-e_d ~ v_e*(lambda20 + lambda22*er_re + lambda23*er_rbl + lambda24*(yd_e/v_e))/p_e, 
+p_e ~v_e*(lambda20 + lambda22*er_re + lambda23*er_rbl + lambda24*(yd_e/v_e))/e_s+ vol* pe_bar, # Tilføjet sidste led for at skabe volatilitet.  
+e_d ~v_e*(lambda20 + lambda22*er_re + lambda23*er_rbl + lambda24*(yd_e/v_e))/p_e, 
 ####Eftersp�rgsel efter bonds - eq. 5.11
 bl_d ~ v_e*(lambda30 + lambda32*er_re + lambda33*er_rbl + lambda34*(yd_e/v_e))/p_bl,
 ####bl_h - eq. 5.13
@@ -71,7 +71,7 @@ bl_cb~ bl_s - bl_h,
 ####forventet afkast p� bonds - eq. 5.18
 er_rbl ~ er_rbl_bar,
 ####Forventet afkast på aktier 
-er_re ~ er_re_bar,
+er_re~ er_re_bar,
 ####rente p� bonds(lange rente) - eq. 5.19
 r_bl ~ er_rbl/p_bl, 
 ####forventet regul�r disponibel indkomst - eq. 5.22
@@ -88,18 +88,15 @@ aap~ (m_d+h_d)/v,
 wealth~p_e*e_d + p_bl*bl_h + m_h + h_d,
 tv ~ v + vf + vg,
 yd_v_ratio~yd/v,
-u_o ~ r_bl[-1]*bl_h[-1]*p_bl[-1],
+u_o~r_bl[-1]*bl_h[-1]*p_bl[-1],
 r ~ r_bar,
 beta1 ~ er_re/100,
-####Volatility
-g ~ g_in + vol*g_bar,
-g_bar ~ vol_1*g_bar[-1] + sigma_1*varepsilon, 
-sigma_1 ~ (1- rho_q)*log_q + rho_q*sigma_1[-1] + neta* u_t,
+###Volatilitet
+pe_bar ~ vol_1*pe_bar[-1] + varepsilon #Tilføjet denne
 )
 ```
 
 ```{r}
-
 external <- sfcr_set(
 ####Parameterværdier
 delta ~ 0.1,
@@ -120,21 +117,17 @@ kappa ~ 1,
 pr ~ 1,
 beta ~ 0.8,  
 ####eksogene variable
-g_in ~ 20,
+g ~ 20,
 r_bar ~ 0.04, 
 p_bl_bar ~ 100,
 ####initialværdier for laggede endogene variable
 er_rbl_bar ~ 1,
 er_re_bar ~3,
 e_s_bar~37.17,
-####Volatilitets measures
-vol ~ 1,
-vol_1 ~ 0.6,
+###Volatilitet
 varepsilon ~ sfcr_random("rnorm", mean=0, sd= 1),
-u_t ~ sfcr_random("rnorm", mean=0, sd= 1),
-rho_q ~ 0.6,
-log_q ~ 1,
-neta ~ 1, 
+vol_1 ~ 0.6,
+vol ~0
   )
 ```
 
@@ -165,14 +158,12 @@ cg ~ 0,
 er_re ~ 3,
 e_s~ 37.17,   
 er_rbl ~ 1,
-g_bar ~ 5,
-sigma_1 ~ 1,
+pe_bar ~ 1
 )
 ```
 
 
 ```{r}
-set.seed(123)
 sim <- sfcr_baseline(
   equations = eqs,
   ations = eqs, 
@@ -189,7 +180,8 @@ sim
 ```{r}
 shock <- sfcr_shock(
   variables = sfcr_set(
-    neta ~ 2),
+    vol ~ 1
+  ),
   start = 10,
   end = 60
 )
@@ -197,7 +189,6 @@ shock <- sfcr_shock(
 
 
 ```{r}
-set.seed(123)
 sim2 <- sfcr_scenario(
   baseline = sim,
   scenario = shock,
@@ -209,13 +200,12 @@ sim2 <- sfcr_scenario(
 ## plot
 
 ```{r}
-plot(sim$g_bar, type="l",xlab="Year",
-     ylab="Share",lty=1,lwd=2, col="black")
+plot(sim2$p_e, type="l",xlab="Year",
+     ylab="Share",lty=1,lwd=2, col="black", main="Andele af formuen");grid()
 ```
 
 ```{r}
-plot(sim2$g_bar, type="l",xlab="Year",
-     ylab="Share",lty=1,lwd=2, col="black")
+plot(sim2$r_bl, type="l",xlab="Year",
+     ylab="Share",lty=1,lwd=2, col="black", main="Andele af formuen");grid()
 ```
-
 

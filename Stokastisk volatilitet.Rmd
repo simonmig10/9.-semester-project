@@ -209,3 +209,8 @@ sim2 <- sfcr_scenario(
 plot(sim2$p_e, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP"); grid()
 ```
+
+```{r}
+plot(sim2$p_bl, type="l",xlab="Year",
+     ylab="Share",lty=1,lwd=2, col="black", main="BNP"); grid()
+```

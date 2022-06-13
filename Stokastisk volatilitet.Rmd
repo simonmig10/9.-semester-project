@@ -187,7 +187,7 @@ sim
 ```{r}
 shock <- sfcr_shock(
   variables = sfcr_set(
-    neta ~ 2),
+    neta ~ 7),
   start = 10,
   end = 60
 )
@@ -213,4 +213,18 @@ plot(sim2$p_e, type="l",xlab="Year",
 ```{r}
 plot(sim2$p_bl, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP"); grid()
+```
+
+
+
+```{r}
+plot(sim2$aaa,type="l", ylim=c(0,1),xlab="Year",
+     ylab="Share",lty=1,lwd=2, col="black", main="Andele af formuen")
+lines(sim2$aap,type="l",xlab="Year",
+      ylab="Share",lty=1,lwd=2, col="green")
+lines(sim2$aao,type="l",xlab="Year",
+      ylab="Share",lty=1,lwd=2, col="red")
+legend(x=2000, y=0.99,legend=c("Andel af aktier", "Andel af obligationer", "Andel af penge"),
+       lty=c(1,1,1),lwd=c(2,2,2), col=c("black", "green", "red"),bty="n")
+grid()
 ```

@@ -99,6 +99,7 @@ sigma_1 ~ (1- rho_q)*log_q + rho_q*sigma_1[-1] + neta* u_t,
 ```
 
 ```{r}
+
 external <- sfcr_set(
 ####Parameterværdier
 delta ~ 0.1,
@@ -171,6 +172,7 @@ sigma_1 ~ 1,
 
 
 ```{r}
+set.seed(123)
 sim <- sfcr_baseline(
   equations = eqs,
   ations = eqs, 
@@ -195,6 +197,7 @@ shock <- sfcr_shock(
 
 
 ```{r}
+set.seed(123)
 sim2 <- sfcr_scenario(
   baseline = sim,
   scenario = shock,
@@ -206,12 +209,18 @@ sim2 <- sfcr_scenario(
 ## plot
 
 ```{r}
-plot(sim$sigma_1, type="l",xlab="Year",
+plot(sim$g_bar, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black")
 ```
 
 ```{r}
-plot(sim2$sigma_1, type="l",xlab="Year",
-     ylab="Share",lty=1,lwd=2, col="black", main="BNP")
+plot(sim2$g_bar, type="l",xlab="Year",
+     ylab="Share",lty=1,lwd=2, col="black")
+```
+
+
+
+```{r}
+
 ```
 

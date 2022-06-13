@@ -1,10 +1,9 @@
 ---
-title: "SFC-test"
+title: "SFC_test_akiepris"
 author: "Simon"
 date: "13/6/2022"
 output: html_document
 ---
-
 
 ```{r}
 library(sfcr)
@@ -94,7 +93,8 @@ r ~ r_bar,
 beta1 ~ er_re/100,
 ####Volatility
 g ~ g_in + vol*g_bar,
-g_bar ~ vol_1*g_bar[-1] + varepsilon
+g_bar ~ vol_1*g_bar[-1] + sigma_1*varepsilon, 
+sigma_1 ~ (1- rho_q)*log_q + rho_q*sigma_1[-1] + neta* u_t
 )
 ```
 
@@ -127,9 +127,13 @@ er_rbl_bar ~ 1,
 er_re_bar ~3,
 e_s_bar~37.17,
 ####Volatilitets measures
-vol ~ 0,
+vol ~ 1,
 vol_1 ~ 0.6,
-varepsilon ~ sfcr_random("rnorm", mean=0, sd= 1)
+varepsilon ~ sfcr_random("rnorm", mean=0, sd= 1),
+u_t ~ sfcr_random("rnorm", mean=0, sd= 1),
+rho_q ~ 0.6,
+log_q ~ 1,
+neta ~ 0
   )
 ```
 
@@ -160,7 +164,8 @@ cg ~ 0,
 er_re ~ 3,
 e_s~ 37.17,   
 er_rbl ~ 1,
-g_bar ~ 5
+g_bar ~ 5,
+sigma_1 ~ 1
 )
 ```
 
@@ -182,7 +187,7 @@ sim
 ```{r}
 shock <- sfcr_shock(
   variables = sfcr_set(
-    vol ~ 1),
+    neta ~ 7),
   start = 10,
   end = 60
 )
@@ -203,9 +208,4 @@ sim2 <- sfcr_scenario(
 ```{r}
 plot(sim2$p_e, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP"); grid()
-```
-
-```{r}
-plot(sim2$m_h, type="l",xlab="Year",
-     ylab="Share",lty=1,lwd=2, col="black", main="BNP")
 ```

@@ -1,7 +1,7 @@
 ---
-title: "Vol Garch"
+title: "GARCH vol mes"
 author: "Simon"
-date: "13/6/2022"
+date: "14/6/2022"
 output: html_document
 ---
 
@@ -12,6 +12,7 @@ Bruger GARCH til at lave volatilitet:
 - vol=0 --> ingen volatilitet i modellen 
 - eneste måde at lave stød på er vel ved at æændre standard deviation i Varepsilon, eller self æændre koefficienerne i GARCH modellen. 
 - Giver mulighed for at lave nemmere volatiliiets measure --> kan vel bare bruge g_Bar_var??
+- Problemet nu er at øget volatilitet lige nu går ind og påvirker forventningerne positivt, historien er at øget vilatilitet skal væære ligmed øget afkast. --> men historien skal vel mere være at de kræver et større afkast (hvilket aktiemarkedet måske ikke giver) og derfor ikke går ind på aktie markedet. 
 
 
 
@@ -81,7 +82,7 @@ bl_cb~ bl_s - bl_h,
 ####forventet afkast p� bonds - eq. 5.18
 er_rbl ~ er_rbl_bar,
 ####Forventet afkast på aktier 
-er_re ~ er_re_bar,
+er_re ~ er_rbl + ex_e, ###lavet afkastet på aktier endogent. 
 ####rente p� bonds(lange rente) - eq. 5.19
 r_bl ~ er_rbl/p_bl, 
 ####forventet regul�r disponibel indkomst - eq. 5.22
@@ -104,7 +105,10 @@ beta1 ~ er_re/100,
 ####Volatility
 g ~ g_in + vol*g_bar, ##Ny govement spending
 g_bar ~ vol_1*g_bar[-1] + (g_bar_var^0.5)*varepsilon,
-g_bar_var ~ a_0 + a_1*g_bar_var[-1]*(varepsilon[-1]^2) + b_1*g_bar_var[-1] #Brugt ligning fra kilde
+g_bar_var ~ a_0 + a_1*g_bar_var[-1]*(varepsilon[-1]^2) + b_1*g_bar_var[-1], #Brugt ligning fra kilde
+####Excess return on stocks
+ex_e ~ mu_ex + sd_ex*u_t,
+mu_ex ~ beta_mu + delta_mu*g_bar_var
 )
 ```
 
@@ -134,15 +138,19 @@ r_bar ~ 0.04,
 p_bl_bar ~ 100,
 ####initialværdier for laggede endogene variable
 er_rbl_bar ~ 1,
-er_re_bar ~3,
+#er_re_bar ~3,
 e_s_bar~37.17,
 ####Volatilitets measures
 vol ~ 1, #ligmed 1 når volatilitet skal med
 vol_1 ~ 0.6,
 varepsilon ~ sfcr_random("rnorm", mean=0, sd= 1),
+u_t ~ sfcr_random("rnorm", mean=0, sd= 1), #Ranndomness in excess return
 a_0 ~ 1,
 a_1 ~ 0.6,
-b_1 ~0.3
+b_1 ~0.3,
+sd_ex ~ 1,#gør det muligt a lave stød il sd i exess return.
+beta_mu ~ 3,
+delta_mu ~ 0.1
   )
 
 ```
@@ -217,13 +225,11 @@ sim2 <- sfcr_scenario(
 ## plot
 
 ```{r}
-plot(sim$g_bar_var, type="l",xlab="Year",
+plot(sim$g_bar, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP"); grid()
 ```
 
 ```{r}
-plot(sim2$m_h, type="l",xlab="Year",
-     ylab="Share",lty=1,lwd=2, col="black", main="BNP")
+plot(sim$m_h, type="l",xlab="Year",
+     ylab="Share",lty=1,lwd=2, col="black", main="BNP");grid()
 ```
-
-

@@ -12,7 +12,8 @@ Bruger GARCH til at lave volatilitet:
 - vol=0 --> ingen volatilitet i modellen 
 - eneste måde at lave stød på er vel ved at æændre standard deviation i Varepsilon, eller self æændre koefficienerne i GARCH modellen. 
 - Giver mulighed for at lave nemmere volatiliiets measure --> kan vel bare bruge g_Bar_var??
-- Problemet nu er at øget volatilitet lige nu går ind og påvirker forventningerne positivt, historien er at øget vilatilitet skal væære ligmed øget afkast. --> men historien skal vel mere være at de kræver et større afkast (hvilket aktiemarkedet måske ikke giver) og derfor ikke går ind på aktie markedet. 
+- Problemet nu er at øget volatilitet lige nu går ind og påvirker forventningerne positivt, historien er at øget vilatilitet skal væære ligmed øget afkast. --> men historien skal vel mere være at de kræver et større afkast (hvilket aktiemarkedet måske ikke giver) og derfor ikke går ind på aktie markedet.
+- Måske kigge på krævet afkast og sidste periodes afkast, jo større forskel jo mindre køber aktier???
 
 
 

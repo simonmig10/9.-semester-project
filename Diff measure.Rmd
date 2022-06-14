@@ -1,5 +1,5 @@
 ---
-title: "GARCH vol mes"
+title: "Garch new vol mes"
 author: "Simon"
 date: "14/6/2022"
 output: html_document
@@ -7,15 +7,13 @@ output: html_document
 
 **Beskrivelse**
 
-Bruger GARCH til at lave volatilitet:
+Ideer til at volatilitet påvirker efterspørgslen efter aktier:
 
-- vol=0 --> ingen volatilitet i modellen 
-- eneste måde at lave stød på er vel ved at æændre standard deviation i Varepsilon, eller self æændre koefficienerne i GARCH modellen. 
-- Giver mulighed for at lave nemmere volatiliiets measure --> kan vel bare bruge g_Bar_var??
-- Problemet nu er at øget volatilitet lige nu går ind og påvirker forventningerne positivt, historien er at øget vilatilitet skal væære ligmed øget afkast. --> men historien skal vel mere være at de kræver et større afkast (hvilket aktiemarkedet måske ikke giver) og derfor ikke går ind på aktie markedet.
-- Måske kigge på krævet afkast og sidste periodes afkast, jo større forskel jo mindre køber aktier???
+1. Økonometrisk estimerer effekten og direkte lave et link 
 
-- Ser ud til at når jeg laver det i P_e eksploderer andel variablene. 
+2. kigge på afstanden mellem krævet afkast og det aktuelle afkast sidste periode, jo større afstand jo større negativ effekt. 
+
+- Når jeg laver re_re ved jeg ik om det er et problem at initial værdien for aktier starter i 1 med stready state i 1.2, automatisk stigning. 
 
 
 
@@ -85,7 +83,7 @@ bl_cb~ bl_s - bl_h,
 ####forventet afkast p� bonds - eq. 5.18
 er_rbl ~ er_rbl_bar,
 ####Forventet afkast på aktier 
-er_re ~ er_rbl + ex_e, ###lavet afkastet på aktier endogent. 
+er_re ~ er_rbl + ex_e, 
 ####rente p� bonds(lange rente) - eq. 5.19
 r_bl ~ er_rbl/p_bl, 
 ####forventet regul�r disponibel indkomst - eq. 5.22
@@ -111,7 +109,9 @@ g_bar ~ vol_1*g_bar[-1] + (g_bar_var^0.5)*varepsilon, #AR(1) process
 g_bar_var ~ a_0 + a_1*g_bar_var[-1]*(varepsilon[-1]^2) + b_1*g_bar_var[-1], #Brugt en GARCH(1,1) process, men er lidt i tvivl om den er skrevet rigtigt --> se noter
 ####Excess return on stocks
 ex_e ~ mu_ex + sd_ex*u_t,
-mu_ex ~ beta_mu + delta_mu*g_bar_var
+mu_ex ~ beta_mu + delta_mu*g_bar_var,
+re_re ~ (p_e - p_e[-1])/p_e[-1]*100, 
+diff_er ~ re_re - ex_e
 )
 ```
 
@@ -229,12 +229,12 @@ sim2 <- sfcr_scenario(
 ## plot
 
 ```{r}
-plot(sim$g_bar_var, type="l",xlab="Year",
+plot(sim$re_re, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP"); grid()
 ```
 
 ```{r}
-plot(sim$g_bar, type="l",xlab="Year",
+plot(sim$p_e, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP");grid()
 ```
 

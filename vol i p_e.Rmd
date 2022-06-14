@@ -5,6 +5,22 @@ date: "13/6/2022"
 output: html_document
 ---
 
+**Beskrivelse**
+
+Bruger GARCH til at lave volatilitet i p_e funktion:
+
+- vol=0 --> ingen volatilitet i modellen 
+- eneste måde at lave stød på er vel ved at æændre standard deviation i Varepsilon, eller self æændre koefficienerne i GARCH modellen. 
+- Giver mulighed for at lave nemmere volatiliiets measure --> kan vel bare bruge g_Bar_var??
+- Problemet nu er at øget volatilitet lige nu går ind og påvirker forventningerne positivt, historien er at øget vilatilitet skal væære ligmed øget afkast. --> men historien skal vel mere være at de kræver et større afkast (hvilket aktiemarkedet måske ikke giver) og derfor ikke går ind på aktie markedet.
+- Måske kigge på krævet afkast og sidste periodes afkast, jo større forskel jo mindre køber aktier???
+
+**Shocks**
+
+-Tror det er et problem der kommer random process ind to gange, bliver meget volatilit. 
+
+- Derfor enden vol=0 eller sd_ex=0 --> kan dog se at når sd_ex=0 er andelene meget volatile, men måske bare et spørgsmål om at ændre parameter værdier. 
+
 ```{r}
 library(sfcr)
 ```
@@ -54,7 +70,7 @@ m_h ~ v_i - bl_h*p_bl - p_e*e_h - h_h,
 ####Eftersp�rgsel efter kontanter - eq. 5.9
 m_d ~ v_e - bl_d*p_bl- p_e*e_d  - h_d,
 ####Efterspørgsel efter aktier
-p_e ~v_e*(lambda20 + lambda22*er_re + lambda23*er_rbl + lambda24*(yd_e/v_e))/e_s+ vol* pe_bar, # Tilføjet sidste led for at skabe volatilitet.  
+p_e ~v_e*(lambda20 + lambda22*er_re + lambda23*er_rbl + lambda24*(yd_e/v_e))/e_s+ vol*pe_bar, # Tilføjet sidste led for at skabe volatilitet.  
 e_d ~v_e*(lambda20 + lambda22*er_re + lambda23*er_rbl + lambda24*(yd_e/v_e))/p_e, 
 ####Eftersp�rgsel efter bonds - eq. 5.11
 bl_d ~ v_e*(lambda30 + lambda32*er_re + lambda33*er_rbl + lambda34*(yd_e/v_e))/p_bl,
@@ -71,7 +87,7 @@ bl_cb~ bl_s - bl_h,
 ####forventet afkast p� bonds - eq. 5.18
 er_rbl ~ er_rbl_bar,
 ####Forventet afkast på aktier 
-er_re~ er_re_bar,
+er_re~ er_rbl+ ex_e, #nu lavet endogent
 ####rente p� bonds(lange rente) - eq. 5.19
 r_bl ~ er_rbl/p_bl, 
 ####forventet regul�r disponibel indkomst - eq. 5.22
@@ -91,8 +107,12 @@ yd_v_ratio~yd/v,
 u_o~r_bl[-1]*bl_h[-1]*p_bl[-1],
 r ~ r_bar,
 beta1 ~ er_re/100,
-###Volatilitet
-pe_bar ~ vol_1*pe_bar[-1] + varepsilon #Tilføjet denne
+####Volatility
+pe_bar ~ vol_1*pe_bar[-1] + (pe_bar_var^0.5)*varepsilon,
+pe_bar_var ~ a_0 + a_1*pe_bar_var[-1]*(varepsilon[-1]^2) + b_1*pe_bar_var[-1], #Brugt ligning fra kilde
+####Excess return on stocks
+ex_e ~ mu_ex + sd_ex*u_t,
+mu_ex ~ beta_mu + delta_mu*pe_bar_var
 )
 ```
 
@@ -122,12 +142,19 @@ r_bar ~ 0.04,
 p_bl_bar ~ 100,
 ####initialværdier for laggede endogene variable
 er_rbl_bar ~ 1,
-er_re_bar ~3,
+#er_re_bar ~3,
 e_s_bar~37.17,
-###Volatilitet
-varepsilon ~ sfcr_random("rnorm", mean=0, sd= 1),
+####Volatilitets measures
+vol ~ 1, #ligmed 1 når volatilitet skal med
 vol_1 ~ 0.6,
-vol ~0
+varepsilon ~ sfcr_random("rnorm", mean=0, sd= 1),
+u_t ~ sfcr_random("rnorm", mean=0, sd= 1), #Ranndomness in excess return
+a_0 ~ 1,
+a_1 ~ 0.6,
+b_1 ~0.3,
+sd_ex ~ 0,#gør det muligt a lave stød il sd i exess return.
+beta_mu ~ 3,
+delta_mu ~ 0.1
   )
 ```
 
@@ -158,7 +185,9 @@ cg ~ 0,
 er_re ~ 3,
 e_s~ 37.17,   
 er_rbl ~ 1,
-pe_bar ~ 1
+pe_bar ~ 1,
+pe_bar_var ~1, #sætter ligmed 1 så den følger sd
+varepsilon ~0 #Sæætter ligmed 0 så den følger mean
 )
 ```
 
@@ -200,7 +229,7 @@ sim2 <- sfcr_scenario(
 ## plot
 
 ```{r}
-plot(sim2$p_e, type="l",xlab="Year",
+plot(sim$er_re, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="Andele af formuen");grid()
 ```
 

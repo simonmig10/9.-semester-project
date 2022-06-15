@@ -140,3 +140,51 @@ VIX= ts(data_vix$mean_vix, start = c(1990,1), frequency = 12)
 plot(VIX)
 ```
 
+
+# ARCH
+
+```{r}
+library("forecast")
+library("rugarch")
+library("aTSA")
+library("urca")
+```
+
+
+```{r}
+c_20= c_20$Closingprice
+
+plot(log(c_20))
+
+Acf(c_20)
+
+Pacf(c_20)
+
+auto.arima(c_20,d = 0, D = 0, max.p = 5,max.q = 5, max.d = 0,max.D = 0, stepwise = TRUE,   seasonal = FALSE)
+
+model_est <- arima(c_20, order = c(0,0,5), method = "ML")
+
+test_lb <- Box.test(model_est$residuals, lag = 10, type = c("Ljung-Box"), fitdf = 2)
+print(test_lb)
+
+Acf(model_est$residuals, lag.max=10)
+
+Acf(model_est$residuals^2, lag.max=10)
+
+test_arch <- arch.test(model_est, output = FALSE)
+print(test_arch)
+
+spec1 <- ugarchspec(variance.model=list(model="sGARCH"),
+                 mean.model=list(armaOrder=c(2,4))) ## Så det her er ARCH-M
+
+fit1 <- ugarchfit(c_20,spec=spec1)
+show(fit1)
+
+
+spec2 <- ugarchspec(variance.model=list(model="sGARCH"),
+                 mean.model=list(armaOrder=c(2,4),archm=TRUE))
+
+fit2 <- ugarchfit(c_20,spec=spec2)
+show(fit2)
+```
+

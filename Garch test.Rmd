@@ -104,7 +104,7 @@ beta1 ~ er_re/100,
 ####Volatility
 g ~ g_in + vol*g_bar, ##Ny govement spending
 g_bar ~ vol_1*g_bar[-1] + (g_bar_var^0.5)*varepsilon,
-g_bar_var ~ a_0 + a_1*g_bar_var[-1]*(varepsilon[-1]^2) + b_1*g_bar_var[-1] #Brugt ligning fra kilde
+g_bar_var ~ a_0 + a_1*g_bar_var[-1]*(varepsilon[-1]^2) + b_1*g_bar_var[-1]
 )
 ```
 
@@ -137,7 +137,7 @@ er_rbl_bar ~ 1,
 er_re_bar ~3,
 e_s_bar~37.17,
 ####Volatilitets measures
-vol ~ 1, #ligmed 1 når volatilitet skal med
+vol ~ 0, #ligmed 1 når volatilitet skal med
 vol_1 ~ 0.6,
 varepsilon ~ sfcr_random("rnorm", mean=0, sd= 1),
 a_0 ~ 1,
@@ -216,13 +216,15 @@ sim2 <- sfcr_scenario(
 
 ## plot
 
+
+
 ```{r}
-plot(sim$g_bar_var, type="l",xlab="Year",
+plot(sim$p_e, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP"); grid()
 ```
 
 ```{r}
-plot(sim2$m_h, type="l",xlab="Year",
+plot(sim2$p_e, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP")
 ```
 

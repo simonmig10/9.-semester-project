@@ -5,6 +5,14 @@ date: "13/6/2022"
 output: html_document
 ---
 
+**Beskrivelse**
+
+- Bruger stokastisk volatilitet i goverment spending funktion. 
+- Dermed følger standard deviaion nu en AR(1) process, med mulighed for at støde til både level af shocks der kommer i g.
+- Men også muligt at støde til sørrelsen på volatiliteten. 
+
+Tror bare jeg kan tage squared af sigma_1 og så bruge dette til ARCH-M måske?
+
 ```{r}
 library(sfcr)
 ```

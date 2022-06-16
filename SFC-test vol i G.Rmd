@@ -5,6 +5,10 @@ date: "13/6/2022"
 output: html_document
 ---
 
+**Beskrivelse**
+
+Volatilitet inkluderet i goverment spending funktion, men kun med standard deviation = 1 og konstant hele tiden. 
+
 
 ```{r}
 library(sfcr)

@@ -15,9 +15,9 @@ Bruger GARCH til at lave volatilitet:
 - Problemet nu er at øget volatilitet lige nu går ind og påvirker forventningerne positivt, historien er at øget vilatilitet skal væære ligmed øget afkast. --> men historien skal vel mere være at de kræver et større afkast (hvilket aktiemarkedet måske ikke giver) og derfor ikke går ind på aktie markedet.
 - Måske kigge på krævet afkast og sidste periodes afkast, jo større forskel jo mindre køber aktier???
 
-- Ser ud til at når jeg laver det i P_e eksploderer andel variablene. 
 
 
+- Ser ud til at når jeg laver det i P_e eksploderer andel variablene.
 
 ```{r}
 library(sfcr)
@@ -149,7 +149,7 @@ vol_1 ~ 0.6,
 varepsilon ~ sfcr_random("rnorm", mean=0, sd= 1),
 u_t ~ sfcr_random("rnorm", mean=0, sd= 1), #Ranndomness in excess return
 a_0 ~ 1,
-a_1 ~ 0.6,
+a_1 ~ 0.4,
 b_1 ~0.3,
 sd_ex ~ 0,#gør det muligt a lave stød il sd i exess return.
 beta_mu ~ 3,
@@ -234,7 +234,7 @@ plot(sim$g_bar_var, type="l",xlab="Year",
 ```
 
 ```{r}
-plot(sim$g_bar, type="l",xlab="Year",
+plot(sim$p_e, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black", main="BNP");grid()
 ```
 

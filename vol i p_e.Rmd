@@ -10,16 +10,16 @@ output: html_document
 Bruger GARCH til at lave volatilitet i p_e funktion:
 
 - vol=0 --> ingen volatilitet i modellen 
-- eneste måde at lave stød på er vel ved at æændre standard deviation i Varepsilon, eller self æændre koefficienerne i GARCH modellen. 
+- eneste måde at lave stød på er vel ved at ændre standard deviation i Varepsilon, eller self æændre koefficienerne i GARCH modellen. 
 - Giver mulighed for at lave nemmere volatiliiets measure --> kan vel bare bruge g_Bar_var??
 - Problemet nu er at øget volatilitet lige nu går ind og påvirker forventningerne positivt, historien er at øget vilatilitet skal væære ligmed øget afkast. --> men historien skal vel mere være at de kræver et større afkast (hvilket aktiemarkedet måske ikke giver) og derfor ikke går ind på aktie markedet.
 - Måske kigge på krævet afkast og sidste periodes afkast, jo større forskel jo mindre køber aktier???
 
 **Shocks**
 
--Tror det er et problem der kommer random process ind to gange, bliver meget volatilit. 
+- Tror det er et problem der kommer random process ind to gange, bliver meget volatilit. --> Ser ud il det virker når det inkluderes i g-funktionen. 
 
-- Derfor enden vol=0 eller sd_ex=0 --> kan dog se at når sd_ex=0 er andelene meget volatile, men måske bare et spørgsmål om at ændre parameter værdier. 
+- Derfor enden vol=0 eller sd_ex=0 --> kan dog se at når sd_ex=0 er andelene meget volatile, men måske bare et spørgsmål om at ændre parameter værdier.
 
 ```{r}
 library(sfcr)

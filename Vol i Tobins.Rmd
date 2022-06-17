@@ -11,7 +11,7 @@ output: html_document
 
 - Så længer jeg ikk bruger re_re er det ligegyldigt om det kommer med i chock eller ikke! Så kan faktisk bare fjerne "vent_1" variablen. 
 
-- Virker ik helt kig videre på!!!!
+- Har brugt variance i "G" som uncertainty measure som går direke ind i akieprisen, gennem et eksra led i tobins portfolie teori. 
 
 ```{r}
 library(sfcr)
@@ -125,9 +125,9 @@ lambda30 ~ 0.1,
 lambda32 ~ -0.015,
 lambda33 ~ 0.0183,
 lambda34 ~ -0.015,
-lambda25 ~ 0.02, #denne er tilføjet
+lambda25 ~ -0.001, #denne er tilføjet
 vent_1 ~ 0, #Denne er tilføjet
-lambda35 ~ -0.02, # Denne er ilføjet
+lambda35 ~ 0.001, # Denne er ilføjet
 theta ~ 0.4,
 theta1 ~ 0.27,
 gamma ~ 0.1, 
@@ -230,7 +230,7 @@ sim2 <- sfcr_scenario(
 ## plot
 
 ```{r}
-plot(sim$p_e, type="l",xlab="Year",
+plot(sim$g_bar, type="l",xlab="Year",
      ylab="Share",lty=1,lwd=2, col="black"); grid()
 ```
 

@@ -2,29 +2,40 @@
 title: "Møde 19-06-2022"
 author: "Simon"
 date: "19/6/2022"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 
 **SFC-model**
 
-- Har inkluderet volatilitet ved brug af AR(1) led, Stokastisk volatilitet og GARCH.
+- Har inkluderet volatilitet ved brug af AR(1) led, Stokastisk volatilitet og GARCH. Er ik helt sikker på GARCH er inkluderet korrekt? 
 
-- Har forsøgt a inklkudere Det både i Goverment spending, og i funktionen for aktiepris. 
+  - Har forsøgt a inklkudere Det både i Goverment spending, og i funktionen for aktiepris. 
 
 - Har brugt GARCH estimat til at inkludere ARCH-M led, som bruges til at bestemme hvordan volatiliitetten skal bestemme afkastet mellem aktier og obligationer. 
 
-  - Her giver mit data forsøg negaivt estimat, men vel fordi de mener afkastet skal falde så når volatilieten stiger? --> viser ik risikopræmien?
-  - Inkluderer det direkte i prisfunktionen ved mindre den faktisk fortæller den reelle afkastforskel og ik den krævede.  
+  - Her får jeg negaivt estimat, men vel fordi afkastet skal falde når volatilieten stiger? --> viser ik risikopræmien? (se ligninger under "Excess return on stocks")
   
-- Hvis jeg bruger diff_measure --> forskel på krævede og observerede afkast. --> kan bruges direkte i afkast ligningen. 
+
+- Led mellem volatilitet og afkast/pris på aktier
+  
+  - Inkluderer det direkte i prisfunktionen ved mindre den faktisk fortæller den reelle afkastforskel og ik den krævede. (så kan jeg bare inkludere det i afkast funktionen)
+  
+  - Har forsøgt med at lave diff_mes, som viser forskellen på det "krævede" afkast (givet ved ARCH-M) og det reele afkast.  
 
 
 **Shocks**
 
-- Se på hvad effekt det haar at inkluderer forskellige uncertainty measures. 
+- Se på hvad effekt det har at inkluderer forskellige uncertainty measures?
 - Kan også bruge forskellige måder at få volatilitet med i modellen?
 
-- Flere papirer finder sammenhæng mellem volatilitet på inflation og aktie markedet 
+- Flere papirer finder sammenhæng mellem volatilitet på inflation og aktie markedet, forsøg at inkludere inflation?
   
 
+**Kode**
+
+- "GARCH i p_e" her er GARCH led brugt i funktion for aktiepris og inkluderet endnu et led i tobins portfolie teori ud fra volatilitet. 
+
+- "Stokastisk volatility" Brugt fra SV i funktion for goverment spending, taget fra kilde. 

@@ -1,0 +1,30 @@
+---
+title: "Møde 19-06-2022"
+author: "Simon"
+date: "19/6/2022"
+output: html_document
+---
+
+
+**SFC-model**
+
+- Har inkluderet volatilitet ved brug af AR(1) led, Stokastisk volatilitet og GARCH.
+
+- Har forsøgt a inklkudere Det både i Goverment spending, og i funktionen for aktiepris. 
+
+- Har brugt GARCH estimat til at inkludere ARCH-M led, som bruges til at bestemme hvordan volatiliitetten skal bestemme afkastet mellem aktier og obligationer. 
+
+  - Her giver mit data forsøg negaivt estimat, men vel fordi de mener afkastet skal falde så når volatilieten stiger? --> viser ik risikopræmien?
+  - Inkluderer det direkte i prisfunktionen ved mindre den faktisk fortæller den reelle afkastforskel og ik den krævede.  
+  
+- Hvis jeg bruger diff_measure --> forskel på krævede og observerede afkast. --> kan bruges direkte i afkast ligningen. 
+
+
+**Shocks**
+
+- Se på hvad effekt det haar at inkluderer forskellige uncertainty measures. 
+- Kan også bruge forskellige måder at få volatilitet med i modellen?
+
+- Flere papirer finder sammenhæng mellem volatilitet på inflation og aktie markedet 
+  
+

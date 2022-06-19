@@ -151,18 +151,37 @@ library("urca")
 ```
 
 
+Load quarerly data:
+
 ```{r}
-c_20= c_20$Closingprice
+library(readxl)
+ba <- read_excel("C:/Users/Simon ik mig/Desktop/Bachelor/ba.xlsx")
 
-plot(log(c_20))
+OMX_Copenhagen_20_Historical_Data <- read_excel("Data/OMX Copenhagen 20 Historical Data.xlsx")
 
-Acf(c_20)
+c_20 <- as.numeric(gsub(",", "", OMX_Copenhagen_20_Historical_Data$Price))
 
-Pacf(c_20)
+c_20 <- ts(c_20, start=c(1990, 1), end=c(2022, 6), frequency=12)
 
-auto.arima(c_20,d = 0, D = 0, max.p = 5,max.q = 5, max.d = 0,max.D = 0, stepwise = TRUE,   seasonal = FALSE)
+inflation2 <- read_excel("Data/inflation2.xlsx")
+```
 
-model_est <- arima(c_20, order = c(0,0,5), method = "ML")
+
+```{r}
+
+inflation <- ts(inflation2$Inflation, start=c(1962, 1), end=c(2015, 12), frequency=12)
+test<-ur.df(inflation, type = c("drift"), selectlags = c("AIC"))
+summary(test)
+
+plot(inflation)
+
+Acf(inflation)
+
+Pacf(inflation)
+
+auto.arima(inflation,d = 0, D = 0, max.p = 5,max.q = 5, max.d = 0,max.D = 0, stepwise = TRUE,   seasonal = FALSE)
+
+model_est <- arima(inflation, order = c(2,0,4), method = "ML")
 
 test_lb <- Box.test(model_est$residuals, lag = 10, type = c("Ljung-Box"), fitdf = 2)
 print(test_lb)
@@ -175,16 +194,59 @@ test_arch <- arch.test(model_est, output = FALSE)
 print(test_arch)
 
 spec1 <- ugarchspec(variance.model=list(model="sGARCH"),
-                 mean.model=list(armaOrder=c(2,4))) ## Så det her er ARCH-M
+                 mean.model=list(armaOrder=c(2,4)))
 
-fit1 <- ugarchfit(c_20,spec=spec1)
+fit1 <- ugarchfit(inflation,spec=spec1)
 show(fit1)
 
 
 spec2 <- ugarchspec(variance.model=list(model="sGARCH"),
                  mean.model=list(armaOrder=c(2,4),archm=TRUE))
 
-fit2 <- ugarchfit(c_20,spec=spec2)
+fit2 <- ugarchfit(inflation,spec=spec2)
 show(fit2)
 ```
 
+```{r}
+
+test<-ur.df(c_20, type = c("drift"), selectlags = c("AIC"))
+summary(test)
+
+diff_log_c20 = diff(log(c_20))
+
+diff_test<-ur.df(diff_log_c20, type = c("drift"), selectlags = c("AIC"))
+summary(diff_test)
+
+plot(diff_log_c20)
+
+Acf(diff_log_c20)
+
+Pacf(diff_log_c20)
+
+auto.arima(diff_log_c20,d = 0, D = 0, max.p = 5,max.q = 5, max.d = 0,max.D = 0, stepwise = TRUE,   seasonal = FALSE)
+
+model_est <- arima(diff_log_c20, order = c(0,0,0), method = "ML")
+
+test_lb <- Box.test(model_est$residuals, lag = 10, type = c("Ljung-Box"), fitdf = 2)
+print(test_lb)
+
+Acf(model_est$residuals, lag.max=10)
+
+Acf(model_est$residuals^2, lag.max=10)
+
+test_arch <- arch.test(model_est, output = FALSE)
+print(test_arch)
+
+spec1 <- ugarchspec(variance.model=list(model="sGARCH"),
+                 mean.model=list(armaOrder=c(0,0)))
+
+fit1 <- ugarchfit(diff_log_c20,spec=spec1)
+show(fit1)
+
+
+spec2 <- ugarchspec(variance.model=list(model="sGARCH"),
+                 mean.model=list(armaOrder=c(0,0),archm=TRUE))
+
+fit2 <- ugarchfit(diff_log_c20,spec=spec2)
+show(fit2)
+```

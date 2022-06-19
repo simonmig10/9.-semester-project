@@ -8,7 +8,7 @@ output: html_document
 **Beskrivelse**
 
 - Volatilitet er lavet i p_e funktion nu.
-- Har forsøg a bruge estimaer for ARCH-M på månedlig c_20 i modellen
+- Har forsøgt at bruge estimater for ARCH-M på månedlig c_20 i modellen
 
 ```{r}
 library(sfcr)
